@@ -2,6 +2,7 @@
   flex: 1;
   padding: 20px;
   margin-left: 280px;
+  background-color: #f4f3ef;
 }
 
 .user-profile {
@@ -14,7 +15,7 @@
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -40,8 +41,15 @@
 }
 
 .album-image {
-  width: 100%;
+  width: 30%;
   height: auto;
+}
+
+.album-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .items {
@@ -58,8 +66,11 @@
 .card-icons {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
   color: #777;
+
 }
 
 .modal {
@@ -94,7 +105,7 @@
 .modal-content {
   background-color: white;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 12px;
   margin: 50px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   max-width: 80%;

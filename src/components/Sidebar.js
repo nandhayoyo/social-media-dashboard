@@ -10,7 +10,7 @@ function Sidebar({ friends, onSelectFriend }) {
           <hr />
         </div>
         <ul>
-          <h3>Your Friends</h3>
+          <h3></h3>
           {friends.map((friend) => (
             <li key={friend.id}>
               <button onClick={() => onSelectFriend(friend.id)}>

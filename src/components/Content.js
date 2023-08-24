@@ -5,7 +5,11 @@ import {
   faComment,
   faHeart,
   faFlag,
+  faBell,
+  faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
+
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
 import "./Content.css";
 
@@ -133,16 +137,20 @@ function Content({ selectedFriendId, friends }) {
                         <p>{item.body}</p>
                       </div>
                     ) : (
-                      <img
-                        src={item.thumbnailUrl}
-                        alt={`Album ${item.id}`}
-                        className="album-image"
-                      />
+                      <div className="album-image-container">
+                        <img
+                          src={item.thumbnailUrl}
+                          alt={`Album ${item.id}`}
+                          className="album-image"
+                        />
+                      </div>
                     )}
                     <div className="card-icons">
                       <FontAwesomeIcon icon={faComment} />
                       <FontAwesomeIcon icon={faHeart} />
+                      <FontAwesomeIcon icon={faBell} />
                       <FontAwesomeIcon icon={faFlag} />
+                      <FontAwesomeIcon icon={faArrowsRotate} />
                     </div>
                   </div>
                 </div>
@@ -171,30 +179,40 @@ function Content({ selectedFriendId, friends }) {
                       >
                         <span aria-hidden="true">&times;</span>
                       </button>
-                      <button
-                        type="button"
-                        className="delete-post"
-                        onClick={() => handlePostDelete(selectedItem.id)}
-                      >
-                        Delete Post
-                      </button>
                     </div>
                   </div>
                   <div className="modal-body">
                     {selectedItem && contentType === "POST" ? (
-                      <div>
+                      <div className="content-card">
                         <h3>{selectedItem.title}</h3>
                         <p>{selectedItem.body}</p>
                       </div>
                     ) : selectedItem && contentType === "ALBUM" ? (
                       <div>
-                        <img
-                          src={selectedItem.url}
-                          alt={`Album ${selectedItem.id}`}
-                          className="album-image"
-                        />
+                        <div className="album-image-container">
+                          <img
+                            src={selectedItem.url}
+                            alt={`Album ${selectedItem.id}`}
+                            className="album-image"
+                          />
+                        </div>
+                        <h5>{selectedItem.title}</h5>
                       </div>
                     ) : null}
+                    <div className="card-icons">
+                      <FontAwesomeIcon icon={faComment} />
+                      <FontAwesomeIcon icon={faHeart} />
+                      <FontAwesomeIcon icon={faBell} />
+                      <FontAwesomeIcon icon={faFlag} />
+                      <FontAwesomeIcon icon={faArrowsRotate} />
+                      <button
+                        type="button"
+                        className="delete-post"
+                        onClick={() => handlePostDelete(selectedItem.id)}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </button>
+                    </div>
                     {selectedItem && (
                       <div className="comments">
                         <h4>Comments:</h4>

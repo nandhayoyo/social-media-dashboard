@@ -1,9 +1,11 @@
 .app {
   font-family: Arial, sans-serif;
+  background-color: #f4f3ef;
 }
 
 .content {
   display: flex;
   align-items: flex-start;
   padding: 20px;
+  background-color: #f4f3ef;
 }
