@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 import PopupSukses from "./PopupSukses";
+import EditModal from "./EditModal";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -28,15 +30,23 @@ function Content({ selectedFriendId, friends }) {
   const [isScrolling, setIsScrolling] = useState(false);
   const [hoveredIcon, setHoveredIcon] = useState(null);
 
+  const [newTitle, setNewTitle] = useState("");
+  const [newFiles, setNewFiles] = useState("");
+
   const [newModalTitle, setNewModalTitle] = useState("");
   const [newModalBody, setNewModalBody] = useState("");
-  const [newModalFile, setNewModalFile] = useState(null);
   const [newModalError, setNewModalError] = useState("");
+
+  const [title, setTitle] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const [showPopup, setShowPopup] = useState(false);
 
   const [isNewPostVisible, setIsNewPostVisible] = useState(true);
   const [isNewAlbumVisible, setIsNewAlbumVisible] = useState(false);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editedItem, setEditedItem] = useState(null);
 
   const selectedFriend = friends.find(
     (friend) => friend.id === selectedFriendId
@@ -82,9 +92,57 @@ function Content({ selectedFriendId, friends }) {
   };
 
   const handleContentTypeChange = (type) => {
-    setIsNewAlbumVisible(false); // Menyembunyikan new-album saat tipe konten diubah
+    setIsNewAlbumVisible(false);
     setIsNewPostVisible(type === "POST");
     setContentType(type);
+  };
+
+  const handleEditClick = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(false); // Close the main modal
+    fetchComments(item.id);
+    setEditedItem(item); // Set the edited item for the edit modal
+    setIsEditModalOpen(true); // Open the edit modal
+  };
+
+  const handleEditModalClose = () => {
+    setEditedItem(null);
+    setIsEditModalOpen(false);
+  };
+
+  const handleEditSave = async (editedTitle, editedBody) => {
+    try {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts/${selectedItem.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: selectedItem.id,
+            userId: selectedItem.userId,
+            title: editedTitle,
+            body: editedBody,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedItem = await response.json();
+        // Update the content with the updated item
+        setContent((prevContent) =>
+          prevContent.map((item) =>
+            item.id === updatedItem.id ? updatedItem : item
+          )
+        );
+        handleEditModalClose();
+      } else {
+        console.error("Error updating item:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating item:", error);
+    }
   };
 
   const handleNewModalTitleChange = (event) => {
@@ -93,10 +151,6 @@ function Content({ selectedFriendId, friends }) {
 
   const handleNewModalBodyChange = (event) => {
     setNewModalBody(event.target.value);
-  };
-
-  const handleNewModalFileChange = (event) => {
-    // Handle file change logic
   };
 
   const handleNewModalSubmit = (event) => {
@@ -112,7 +166,7 @@ function Content({ selectedFriendId, friends }) {
     const newPost = {
       title: newModalTitle,
       body: newModalBody,
-      userId: selectedFriendId, // Set the user ID based on the selected friend
+      userId: selectedFriendId,
     };
 
     fetch(endpoint, {
@@ -124,25 +178,20 @@ function Content({ selectedFriendId, friends }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Update content with the newly added item
         setContent((prevContent) => [data, ...prevContent]);
 
-        setNewModalTitle(""); // Clear the title
-        setNewModalBody(""); // Clear the body
-        setShowPopup(true); // Show the confirmation message
+        setNewModalTitle("");
+        setNewModalBody("");
+        setShowPopup(true);
 
-        // Set a timeout to hide the confirmation message after 3 seconds
         setTimeout(() => {
           setShowPopup(false);
         }, 1500);
       })
       .catch((error) => {
-        // Handle error
         console.error("Error adding new post:", error);
       });
   };
-
-  
 
   const handleIconHover = (icon) => {
     setHoveredIcon(icon);
@@ -154,13 +203,28 @@ function Content({ selectedFriendId, friends }) {
 
   const openModal = (item) => {
     setSelectedItem(item);
-    fetchComments(item.id);
+    if (contentType === "ALBUM") {
+      fetchComments(item.id); // Memanggil fetchComments hanya saat membuka album
+    }
     setIsModalOpen(true);
   };
+
 
   const closeModal = () => {
     setSelectedItem(null);
     setIsModalOpen(false);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    setNewTitle("");
+    setNewFiles("");
+    setNewModalBody("");
+    setShowPopup(true);
+
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 1500);
   };
 
   const handleShowNewAlbum = () => {
@@ -220,7 +284,6 @@ function Content({ selectedFriendId, friends }) {
           setComments((prevComments) =>
             prevComments.filter((comment) => comment.id !== commentId)
           );
-          // Mengatur kembali confirmAction dan showConfirmation ke null
           setConfirmAction(null);
           setShowConfirmation(false);
         })
@@ -298,21 +361,28 @@ function Content({ selectedFriendId, friends }) {
             </div>
             <div className={`new-album ${isNewAlbumVisible ? "" : "hidden"}`}>
               <div>
-                <form onSubmit={""}>
+                <form onSubmit={handleSubmit}>
                   <input
                     type="text"
                     className="new-post-input"
                     id="inputTitle"
-                    placeholder="Title of ur photo"
-                    value={newModalTitle}
-                    onChange={""}
+                    placeholder="Title of your photo"
+                    value={newTitle}
                     required
+                    onChange={(event) => setNewTitle(event.target.value)}
                   />
-                  <input type="file" class="form-control-file" id="namafiles" />
+                  <input
+                    type="file"
+                    className="form-control-file"
+                    id="namafiles"
+                    value={newFiles}
+                    onChange={(event) => setSelectedFile(event.target.files[0])}
+                  />
 
                   <button className="submit-comment" type="submit">
                     UPLOAD
                   </button>
+                  {showPopup && <PopupSukses message="Upload successful!" />}
                 </form>
               </div>
             </div>
@@ -392,6 +462,7 @@ function Content({ selectedFriendId, friends }) {
                         onMouseLeave={handleIconBlur}
                         onFocus={() => handleIconHover("repost")}
                         onBlur={handleIconBlur}
+                        onClick={() => handleEditClick(selectedItem.id)}
                       >
                         <FontAwesomeIcon icon={faArrowsRotate} />
                       </button>
@@ -602,7 +673,14 @@ function Content({ selectedFriendId, friends }) {
                         ))}
                       </div>
                     )}
-
+                    {/* eDIT POST */}
+                    {isEditModalOpen && (
+                      <EditModal
+                        selectedItem={selectedItem} // Pass the selectedItem for editing
+                        onClose={handleEditModalClose}
+                        onSave={handleEditSave}
+                      />
+                    )}
                     {selectedItem && (
                       <div className="new-comment-section">
                         <form onSubmit={handleCommentSubmit}>
