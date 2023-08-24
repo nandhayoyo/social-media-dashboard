@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faComment,
   faHeart,
@@ -9,7 +9,11 @@ import {
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowsRotate,
+  faUser,
+  faCircleUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./Content.css";
 
@@ -20,6 +24,8 @@ function Content({ selectedFriendId, friends }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
   const selectedFriend = friends.find(
     (friend) => friend.id === selectedFriendId
   );
@@ -42,11 +48,16 @@ function Content({ selectedFriendId, friends }) {
     fetch(`https://jsonplaceholder.typicode.com/comments?postId=${itemId}`)
       .then((response) => response.json())
       .then((data) => {
-        setComments(data);
+        const commentsWithAvatar = data.map((comment) => ({
+          ...comment,
+          avatarUrl: `https://randomuser.me/api/portraits/thumb/${
+            Math.random() > 0.5 ? "men" : "women"
+          }/${Math.floor(Math.random() * 100)}.jpg`,
+        }));
+        setComments(commentsWithAvatar);
       })
       .catch((error) => console.error("Error fetching comments:", error));
   };
-
   const openModal = (item) => {
     setSelectedItem(item);
     fetchComments(item.id);
@@ -84,17 +95,20 @@ function Content({ selectedFriendId, friends }) {
   };
 
   const handlePostDelete = (postId) => {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then(() => {
-        setContent((prevContent) =>
-          prevContent.filter((item) => item.id !== postId)
-        );
-        closeModal();
+    setConfirmAction(() => () => {
+      fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
+        method: "DELETE",
       })
-      .catch((error) => console.error("Error deleting post:", error));
+        .then((response) => response.json())
+        .then(() => {
+          setContent((prevContent) =>
+            prevContent.filter((item) => item.id !== postId)
+          );
+          closeModal();
+        })
+        .catch((error) => console.error("Error deleting post:", error));
+    });
+    setShowConfirmation(true);
   };
 
   const handleCommentDelete = (commentId) => {
@@ -215,21 +229,51 @@ function Content({ selectedFriendId, friends }) {
                     </div>
                     {selectedItem && (
                       <div className="comments">
-                        <h4>Comments:</h4>
+                        <h4>Replied:</h4>
                         {comments.map((comment) => (
-                          <div key={comment.id} className="comment-list">
-                            <strong>{comment.email}</strong>: {comment.body}
-                            <button
-                              type="button"
-                              className="delete-comment"
-                              onClick={() => handleCommentDelete(comment.id)}
-                            >
-                              Delete
-                            </button>
+                          <div className="comment-section">
+                            <div key={comment.id} className="comment-card">
+                              <div className="comment-avatar">
+                                {comment.avatarUrl ? (
+                                  <img src={comment.avatarUrl} alt="Avatar" />
+                                ) : (
+                                  <FontAwesomeIcon
+                                    className="default-avatar"
+                                    icon={faCircleUser}
+                                  />
+                                )}
+                              </div>
+                              <div className="comment-details">
+                                <div className="comment-header">
+                                  <strong>{comment.email}</strong>
+                                </div>
+                                <div className="comment-body">
+                                  {comment.body}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="card-icons-comment">
+                              <FontAwesomeIcon icon={faComment} />
+                              <FontAwesomeIcon icon={faHeart} />
+                              <FontAwesomeIcon icon={faBell} />
+                              <FontAwesomeIcon icon={faFlag} />
+                              <FontAwesomeIcon icon={faArrowsRotate} />
+                              <button
+                                type="button"
+                                className="delete-post"
+                                onClick={() =>
+                                  handlePostDelete(selectedItem.id)
+                                }
+                              >
+                                <FontAwesomeIcon icon={faTrashCan} />
+                              </button>
+                            </div>
+                            <hr className="hr-comment-section"></hr>
                           </div>
                         ))}
                       </div>
                     )}
+
                     {selectedItem && (
                       <div className="add-comment">
                         <h4>Add a Comment:</h4>
@@ -248,6 +292,18 @@ function Content({ selectedFriendId, friends }) {
                 </div>
               </div>
             </div>
+          )}
+          {showConfirmation && (
+            <ConfirmationModal
+              message="Are you sure?"
+              onConfirm={() => {
+                if (confirmAction) {
+                  confirmAction();
+                }
+                setShowConfirmation(false);
+              }}
+              onCancel={() => setShowConfirmation(false)}
+            />
           )}
         </div>
       ) : (

@@ -70,7 +70,25 @@
   padding-left: 50px;
   padding-right: 50px;
   color: #777;
+  display: flex;
+  align-items: center;
+}
 
+.card-icons-comment {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  color: #777;
+  display: flex;
+  align-items: center;
+}
+
+.hr-comment-section {
+  margin-bottom: 40px;
+  border: 1px solid #ccc;
 }
 
 .modal {
@@ -133,4 +151,48 @@
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 12px;
+}
+
+.comments {
+}
+
+.comment-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 0px solid #ccc;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.default-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.comment-avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-details {
+  flex: 1;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-body {
+  margin-top: 5px;
 }
