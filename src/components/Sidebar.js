@@ -6,7 +6,7 @@ function Sidebar({ friends, onSelectFriend }) {
     <aside className="sidebar">
       <nav>
         <div className="socmed">
-          <h1>HOME</h1>
+          <h1 className="sidebar-title">HOME</h1>
           <hr />
         </div>
         <ul>

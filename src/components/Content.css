@@ -8,6 +8,7 @@
 .user-profile {
   display: flex;
   align-items: center;
+
   margin-bottom: 20px;
 }
 
@@ -40,6 +41,9 @@
   margin: 5px;
 }
 
+.hidden {
+  display: none !important;
+}
 .album-image {
   width: 30%;
   height: auto;
@@ -55,6 +59,7 @@
 .items {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 185px !important;
 }
 
 .item {
@@ -82,6 +87,15 @@
   padding-left: 50px;
   padding-right: 50px;
   color: #777;
+  display: flex;
+  align-items: center;
+}
+
+.card-icons button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   display: flex;
   align-items: center;
 }
@@ -195,4 +209,204 @@
 
 .comment-body {
   margin-top: 5px;
+}
+
+.items.scrolling {
+  margin-top: 90px;
+}
+
+.unscroll {
+  position: fixed;
+  margin-top: -20px !important;
+  padding-top: 20px;
+  width: 100%;
+  height: max-content;
+  background-color: #f2f2f2;
+}
+
+.new-post-input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 3px 5px;
+  font-size: 20px;
+  transition: border-color 0.3s ease;
+}
+
+.add-comment {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 3px 5px;
+  font-size: 20px;
+  transition: border-color 0.3s ease;
+}
+
+.add-comment:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+.new-comment-section {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.submit-comment {
+  background-color: #6ea3ef;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.add-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+/* 
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  width: 400px;
+} */
+
+.new-post {
+  margin-bottom: 20px;
+  margin-left: 109px;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.new-album {
+  margin-bottom: 20px;
+  margin-left: 109px;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.modal input[type="file"] {
+  margin-bottom: 10px;
+}
+
+.modal button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.modal .error {
+  color: red;
+  margin-top: 5px;
+}
+
+.card-icons button span {
+  margin-left: 5px;
+}
+
+.card-icons button:hover,
+.card-icons button:focus {
+  outline: none;
+}
+
+.card-icons button:hover span,
+.card-icons button:focus span {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons button:hover .fa-heart,
+.card-icons button:focus .fa-heart {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons button:hover .fa-bell,
+.card-icons button:focus .fa-bell {
+  color: #dfbe3c; /* Warna kuning untuk efek hover/focus */
+}
+
+.card-icons button:hover .fa-flag,
+.card-icons button:focus .fa-flag {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons button:hover .fa-trash-can,
+.card-icons button:focus .fa-trash-can {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons button:hover .fa-arrows-rotate,
+.card-icons button:focus .fa-arrows-rotate {
+  color: green; /* Warna hijau untuk efek hover/focus */
+}
+
+.card-icons-comment button span {
+  margin-left: 5px;
+}
+
+.card-icons-comment button:hover,
+.card-icons-comment button:focus {
+  outline: none;
+}
+
+.card-icons-comment button:hover span,
+.card-icons-comment button:focus span {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons-comment button:hover .fa-heart,
+.card-icons-comment button:focus .fa-heart {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons-comment button:hover .fa-bell,
+.card-icons-comment button:focus .fa-bell {
+  color: #dfbe3c; /* Warna kuning untuk efek hover/focus */
+}
+
+.card-icons-comment button:hover .fa-flag,
+.card-icons-comment button:focus .fa-flag {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons-comment button:hover .fa-trash-can,
+.card-icons-comment button:focus .fa-trash-can {
+  color: red; /* Warna merah untuk efek hover/focus */
+}
+
+.card-icons-comment button:hover .fa-arrows-rotate,
+.card-icons-comment button:focus .fa-arrows-rotate {
+  color: green; /* Warna hijau untuk efek hover/focus */
 }

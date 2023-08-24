@@ -3,3 +3,17 @@
   justify-content: space-between;
   padding-right: 20px;
 }
+
+.buttons-container {
+  text-align: center;
+  margin-top: 10px; /* Sesuaikan margin sesuai kebutuhan */
+}
+
+.buttons-container button {
+  margin: 0 10px; /* Sesuaikan margin horizontal sesuai kebutuhan */
+}
+
+.sidebar-title{
+  margin-bottom: 75px;
+}
+
