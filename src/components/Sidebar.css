@@ -1,13 +1,33 @@
 .sidebar {
-  width: 200px;
+  width: 230px;
+  height: 100vh;
   background-color: #f2f2f2;
   border-right: 1px solid #ccc;
   padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+}
+
+.avatar-sidebar {
+  display: inline-block; 
+  vertical-align: middle; 
+  width: 20px; 
+  height: 20px; 
+  border-radius: 50%;
+  margin-right: 10px;
+  padding:0px;
 }
 
 ul {
   list-style: none;
   padding: 0;
+}
+
+.socmed {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 li {

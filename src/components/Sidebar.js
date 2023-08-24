@@ -5,12 +5,22 @@ function Sidebar({ friends, onSelectFriend }) {
   return (
     <aside className="sidebar">
       <nav>
-        <h1>HOME</h1>
+        <div className="socmed">
+          <h1>HOME</h1>
+          <hr />
+        </div>
         <ul>
           <h3>Your Friends</h3>
           {friends.map((friend) => (
             <li key={friend.id}>
               <button onClick={() => onSelectFriend(friend.id)}>
+                <div className="avatar-sidebar">
+                  <img
+                    src={`https://i.pravatar.cc/32?u=${friend.id}`}
+                    alt={`${friend.name}'s Avatar`}
+                    className="avatar-sidebar"
+                  />
+                </div>
                 {friend.name}
               </button>
             </li>

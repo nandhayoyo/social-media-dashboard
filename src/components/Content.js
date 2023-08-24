@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import {
+  faComment,
+  faHeart,
+  faFlag,
+} from "@fortawesome/free-regular-svg-icons";
+
 import "./Content.css";
 
 function Content({ selectedFriendId, friends }) {
@@ -80,7 +88,7 @@ function Content({ selectedFriendId, friends }) {
         setContent((prevContent) =>
           prevContent.filter((item) => item.id !== postId)
         );
-        closeModal(); 
+        closeModal();
       })
       .catch((error) => console.error("Error deleting post:", error));
   };
@@ -117,23 +125,26 @@ function Content({ selectedFriendId, friends }) {
           <div className="items">
             {content.length > 0 ? (
               content.map((item) => (
-                <div
-                  key={item.id}
-                  className="item"
-                  onClick={() => openModal(item)}
-                >
-                  {contentType === "POST" ? (
-                    <div>
-                      <h3>{item.title}</h3>
-                      <p>{item.body}</p>
+                <div key={item.id} className="item">
+                  <div className="content-card" onClick={() => openModal(item)}>
+                    {contentType === "POST" ? (
+                      <div>
+                        <h3>{item.title}</h3>
+                        <p>{item.body}</p>
+                      </div>
+                    ) : (
+                      <img
+                        src={item.thumbnailUrl}
+                        alt={`Album ${item.id}`}
+                        className="album-image"
+                      />
+                    )}
+                    <div className="card-icons">
+                      <FontAwesomeIcon icon={faComment} />
+                      <FontAwesomeIcon icon={faHeart} />
+                      <FontAwesomeIcon icon={faFlag} />
                     </div>
-                  ) : (
-                    <img
-                      src={item.thumbnailUrl}
-                      alt={`Album ${item.id}`}
-                      className="album-image"
-                    />
-                  )}
+                  </div>
                 </div>
               ))
             ) : (
@@ -143,79 +154,79 @@ function Content({ selectedFriendId, friends }) {
           {isModalOpen && (
             <div className="modal" tabIndex="-1" role="dialog">
               <div className="modal-overlay">
-                  <div className="modal-content modal-medium">
-                    <div className="modal-header">
-                      <div className="user-profile">
-                        <img
-                          src={`https://i.pravatar.cc/150?u=${selectedFriend.id}`}
-                          alt="User profile"
-                          className="avatar"
-                        />
-                        <h2>{selectedFriend.name}</h2>
-                        <button
-                          type="button"
-                          className="close-end"
-                          onClick={closeModal}
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                        <button
-                          type="button"
-                          className="delete-post"
-                          onClick={() => handlePostDelete(selectedItem.id)}
-                        >
-                          Delete Post
-                        </button>
+                <div className="modal-content modal-medium">
+                  <div className="modal-header">
+                    <div className="user-profile">
+                      <img
+                        src={`https://i.pravatar.cc/150?u=${selectedFriend.id}`}
+                        alt="User profile"
+                        className="avatar"
+                      />
+                      <h2>{selectedFriend.name}</h2>
+                      <button
+                        type="button"
+                        className="close-end"
+                        onClick={closeModal}
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="delete-post"
+                        onClick={() => handlePostDelete(selectedItem.id)}
+                      >
+                        Delete Post
+                      </button>
+                    </div>
+                  </div>
+                  <div className="modal-body">
+                    {selectedItem && contentType === "POST" ? (
+                      <div>
+                        <h3>{selectedItem.title}</h3>
+                        <p>{selectedItem.body}</p>
                       </div>
-                    </div>
-                    <div className="modal-body">
-                      {selectedItem && contentType === "POST" ? (
-                        <div>
-                          <h3>{selectedItem.title}</h3>
-                          <p>{selectedItem.body}</p>
-                        </div>
-                      ) : selectedItem && contentType === "ALBUM" ? (
-                        <div>
-                          <img
-                            src={selectedItem.url}
-                            alt={`Album ${selectedItem.id}`}
-                            className="album-image"
+                    ) : selectedItem && contentType === "ALBUM" ? (
+                      <div>
+                        <img
+                          src={selectedItem.url}
+                          alt={`Album ${selectedItem.id}`}
+                          className="album-image"
+                        />
+                      </div>
+                    ) : null}
+                    {selectedItem && (
+                      <div className="comments">
+                        <h4>Comments:</h4>
+                        {comments.map((comment) => (
+                          <div key={comment.id} className="comment-list">
+                            <strong>{comment.email}</strong>: {comment.body}
+                            <button
+                              type="button"
+                              className="delete-comment"
+                              onClick={() => handleCommentDelete(comment.id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {selectedItem && (
+                      <div className="add-comment">
+                        <h4>Add a Comment:</h4>
+                        <form onSubmit={handleCommentSubmit}>
+                          <input
+                            type="text"
+                            value={newComment}
+                            onChange={handleCommentChange}
+                            placeholder="Your comment..."
                           />
-                        </div>
-                      ) : null}
-                      {selectedItem && (
-                        <div className="comments">
-                          <h4>Comments:</h4>
-                          {comments.map((comment) => (
-                            <div key={comment.id} className="comment-list">
-                              <strong>{comment.email}</strong>: {comment.body}
-                              <button
-                                type="button"
-                                className="delete-comment"
-                                onClick={() => handleCommentDelete(comment.id)}
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {selectedItem && (
-                        <div className="add-comment">
-                          <h4>Add a Comment:</h4>
-                          <form onSubmit={handleCommentSubmit}>
-                            <input
-                              type="text"
-                              value={newComment}
-                              onChange={handleCommentChange}
-                              placeholder="Your comment..."
-                            />
-                            <button type="submit">Add</button>
-                          </form>
-                        </div>
-                      )}
-                    </div>
+                          <button type="submit">Add</button>
+                        </form>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
