@@ -5,6 +5,20 @@
   background-color: #f4f3ef;
 }
 
+.form-control-file {
+  background-color: #959595;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  margin-right: 8px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.dashboardd {
+  margin-bottom: 75px;
+}
+
 .user-profile {
   display: flex;
   align-items: center;
@@ -59,7 +73,7 @@
 .items {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 185px !important;
+  margin-top: 200px !important;
 }
 
 .item {
@@ -285,20 +299,26 @@
   width: 400px;
 } */
 
+.dashboardd {
+  text-align: center;
+  justify-content: center;
+}
+
 .new-post {
   margin-bottom: 20px;
-  margin-left: 260px;
+  /* margin-left: 260px;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: row; */
 }
 
 .new-album {
   margin-bottom: 20px;
-  margin-left: 250px;
+
+  /* margin-left: 250px;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: row;  */
 }
 
 .modal h2 {

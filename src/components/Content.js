@@ -37,7 +37,7 @@ function Content({ selectedFriendId, friends }) {
   const [newModalBody, setNewModalBody] = useState("");
   const [newModalError, setNewModalError] = useState("");
 
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -203,12 +203,9 @@ function Content({ selectedFriendId, friends }) {
 
   const openModal = (item) => {
     setSelectedItem(item);
-    if (contentType === "ALBUM") {
-      fetchComments(item.id); // Memanggil fetchComments hanya saat membuka album
-    }
+    fetchComments(item.id); // Selalu panggil fetchComments saat membuka item
     setIsModalOpen(true);
   };
-
 
   const closeModal = () => {
     setSelectedItem(null);
@@ -718,7 +715,10 @@ function Content({ selectedFriendId, friends }) {
           )}
         </div>
       ) : (
-        <p>Select a friend to see their content.</p>
+        <div className="dashboardd">
+            <h3 >Select a friend to see their content.</h3>
+            <hr style={{ marginTop: 75}}></hr>
+        </div>
       )}
     </div>
   );

@@ -10,8 +10,19 @@
   overflow-y: auto;
 }
 
+
+.sidebar-title{
+  margin-bottom: 15px;
+}
+
+.default-icon{
+  width: 50px;
+  height: 50px;
+}
+
 .avatar-sidebar {
   display: inline-block;
+  font-family: "Montserrat", sans-serif !important;
   vertical-align: middle;
   width: 20px;
   height: 20px;
@@ -22,12 +33,14 @@
 
 ul {
   list-style: none;
+  font-family: "Montserrat", sans-serif;
   padding: 0;
 }
 
 .socmed {
   text-align: center;
   margin-bottom: 10px;
+  font-family: "Montserrat", sans-serif;
 }
 
 li {
